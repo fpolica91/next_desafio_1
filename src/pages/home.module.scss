@@ -1,1 +1,49 @@
-// TODO
+
+
+.contentContainer{
+  max-width: 700px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.post{
+  max-width: 720px;
+  margin: 5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  strong{
+    display: block;
+    color: var(--heading);
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: 700;
+    // margin-bottom: 1rem;
+  }
+  p{
+    color: var(--body);
+    margin-top: 0.6rem;
+    font-size: 1.125rem;
+  }
+  ul{
+    list-style: none;
+    display: flex;
+    margin-top: 1.5rem;
+    svg{
+      margin-right : 0.5rem;
+    }
+    li + li{
+      margin-left: 1.625rem;
+    }
+  }
+}
+
+
+
+.nextPage{
+  border: 0;
+  background-color: transparent;
+  color: var(--highlight);
+  font-size: 1.125rem;
+  margin-top: 4rem;
+}
