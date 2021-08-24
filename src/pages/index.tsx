@@ -1,10 +1,9 @@
-import next, { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Prismic from '@prismicio/client';
 import { FiCalendar, FiUser } from 'react-icons/fi';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -44,23 +43,27 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   return (
     <>
       <Head> Home </Head>
-      <main className={styles.contentContainer}>
-        {posts.map(post => (
-          <div key={post.slug} className={styles.post}>
-            <strong>{post.content.title}</strong>
-            <p>{post.content.subtitle}</p>
-            <ul>
-              <li>
-                <FiCalendar />
-                <time>{post.first_publication_date}</time>
-              </li>
-              <li>
-                <FiUser />
-                {post.content.author}
-              </li>
-            </ul>
-          </div>
-        ))}
+      <main className={commonStyles.container}>
+        <div className={styles.posts}>
+          {posts.map(post => (
+            <Link href={`/slug/${post.slug}`} key={post.slug}>
+              <a>
+                <strong>{post.content.title}</strong>
+                <p>{post.content.subtitle}</p>
+                <ul>
+                  <li>
+                    <FiCalendar />
+                    <time>{post.first_publication_date}</time>
+                  </li>
+                  <li>
+                    <FiUser />
+                    {post.content.author}
+                  </li>
+                </ul>
+              </a>
+            </Link>
+          ))}
+        </div>
         {nextPage && (
           <button
             className={styles.nextPage}
@@ -86,21 +89,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  const posts = postsResponse.results.map(post => {
-    return {
-      slug: post.uid,
-      first_publication_date: format(
-        new Date(post.first_publication_date),
-        'dd MMM yyyy',
-        { locale: ptBR }
-      ),
-      content: {
-        author: post.data.author,
-        title: post.data.title,
-        subtitle: post.data.subtitle,
-      },
-    };
-  });
+  const posts = postsResponse.results.map(post => formatter(post));
 
   const postsPagination = {
     results: posts,
