@@ -8,6 +8,7 @@ import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import { formatter } from '../utils/formatter';
+import Header from '../components/Header';
 
 interface Post {
   slug?: string;
@@ -44,9 +45,10 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     <>
       <Head> Home </Head>
       <main className={commonStyles.container}>
+        <Header />
         <div className={styles.posts}>
           {posts.map(post => (
-            <Link href={`/slug/${post.slug}`} key={post.slug}>
+            <Link href={`/post/${post.slug}`} key={post.slug}>
               <a>
                 <strong>{post.content.title}</strong>
                 <p>{post.content.subtitle}</p>
